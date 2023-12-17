@@ -1,6 +1,6 @@
 import 'package:elibrary/view/form/input_buku.dart';
 import 'package:elibrary/view/pages/home/components/book_card.dart';
-import 'package:elibrary/view/pages/home/components/main_menu.dart';
+import 'package:elibrary/view/pages/home/main_menu.dart';
 import 'package:elibrary/view/pages/splashscreen/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

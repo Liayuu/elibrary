@@ -1,111 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class BookCard extends StatelessWidget {
-  final double? width;
-  final double? height;
+  final String image;
   final String author;
-  final String images;
   final String name;
-  final double availability;
-  // final String unit;
-  String _formatCurrency(double p) =>
-      NumberFormat.currency(locale: 'id', decimalDigits: 2, symbol: "Rp. ")
-          .format(p);
-
   const BookCard({
-    super.key,
-    this.height,
-    this.width,
-    required this.images,
+    Key? key,
+    required this.image,
     required this.author,
     required this.name,
-    required this.availability,
-    // required this.unit
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: height,
-      child: Align(
-        alignment: Alignment.topCenter,
-        child: Stack(
+    return Card(
+      elevation: 5, // Set the card elevation
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: Get.width,
-              height: Get.height,
-              margin: EdgeInsets.only(
-                  top: height != null ? height! * 0.12 : Get.height * 0.12),
-              decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  borderRadius: BorderRadius.circular(20),
-                  color: Get.theme.cardColor),
+            Flexible(
+                fit: FlexFit.tight,
+                flex: 5,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                  ),
+                )),
+            const SizedBox(
+              height: 8,
             ),
-            SizedBox(
-              height: Get.height,
-              width: Get.width,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: ClipOval(
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: Image.network(
-                            images,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 8),
-                      child: Text(name,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                          style: Get.textTheme.bodyLarge!
-                              .copyWith(fontWeight: FontWeight.w700)),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(4),
-                              color: Get.theme.primaryColor,
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              child: Text(author,
-                                  style: Get.textTheme.bodyMedium!
-                                      .copyWith(fontWeight: FontWeight.w700)),
-                            ),
-                          ),
-                        ),
-                        // Padding(
-                        //   padding: const EdgeInsets.fromLTRB(8, 4, 8, 8),
-                        //   child: Text(
-                        //     "$availability $unit tersedia",
-                        //     style: Get.textTheme.bodySmall,
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ],
+            Flexible(
+              fit: FlexFit.loose,
+              flex: 2,
+              child: Text(
+                name,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            Flexible(
+              fit: FlexFit.loose,
+              flex: 1,
+              child: Text(
+                author,
+                style: const TextStyle(fontSize: 14.0),
               ),
             ),
           ],

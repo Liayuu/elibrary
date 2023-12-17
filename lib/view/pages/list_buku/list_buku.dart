@@ -8,7 +8,7 @@ class ListBuku extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.orange[300],
-        title: Center(
+        title: const Center(
           child: Text(
             "Selamat Datang",
             style: TextStyle(
