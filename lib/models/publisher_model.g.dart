@@ -8,12 +8,12 @@ part of 'publisher_model.dart';
 
 PublisherModel _$PublisherModelFromJson(Map<String, dynamic> json) =>
     PublisherModel(
-      id: json['id'] as String?,
-      publisherName: json['publisherName'] as String?,
+      id: json['id'] as int?,
+      publisherName: json['name'] as String?,
     );
 
 Map<String, dynamic> _$PublisherModelToJson(PublisherModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'publisherName': instance.publisherName,
+      'name': instance.publisherName,
     };

@@ -4,7 +4,8 @@ part 'writer_model.g.dart';
 
 @JsonSerializable()
 class WriterModel {
-  String? id;
+  int? id;
+  @JsonKey(name: "name")
   String? writerName;
   WriterModel({
     this.id,
@@ -12,7 +13,7 @@ class WriterModel {
   });
 
   WriterModel copyWith({
-    String? id,
+    int? id,
     String? writerName,
   }) {
     return WriterModel(
@@ -23,8 +24,7 @@ class WriterModel {
 
   Map<String, dynamic> toJson() => _$WriterModelToJson(this);
 
-  factory WriterModel.fromJson(Map<String, dynamic> json) =>
-      _$WriterModelFromJson(json);
+  factory WriterModel.fromJson(Map<String, dynamic> json) => _$WriterModelFromJson(json);
 
   @override
   String toString() => 'WriterModel(id: $id, writerName: $writerName)';
@@ -33,9 +33,7 @@ class WriterModel {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is WriterModel &&
-        other.id == id &&
-        other.writerName == writerName;
+    return other is WriterModel && other.id == id && other.writerName == writerName;
   }
 
   @override

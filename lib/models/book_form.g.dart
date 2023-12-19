@@ -1,37 +1,33 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'book_model.dart';
+part of 'book_form.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-BookModel _$BookModelFromJson(Map<String, dynamic> json) => BookModel(
+BookForm _$BookFormFromJson(Map<String, dynamic> json) => BookForm(
       id: json['id'] as int?,
       name: json['name'] as String?,
       isbn: json['isbn'] as String?,
       description: json['description'] as String?,
-      genres:
-          (json['genres'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      publisher: json['publisher'] == null
-          ? null
-          : PublisherModel.fromJson(json['publisher'] as Map<String, dynamic>),
-      writer: json['author'] == null
-          ? null
-          : WriterModel.fromJson(json['author'] as Map<String, dynamic>),
-      language: json['language'] as String?,
+      publisher: json['publisher'] as String?,
+      author: json['author'] as String?,
       publishedDate:
           DateHelper.dateTimeFromJson(json['publishedYear'] as String?),
+      language: json['language'] as String?,
+      genres:
+          (json['genres'] as List<dynamic>?)?.map((e) => e as String).toList(),
     );
 
-Map<String, dynamic> _$BookModelToJson(BookModel instance) => <String, dynamic>{
+Map<String, dynamic> _$BookFormToJson(BookForm instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
       'isbn': instance.isbn,
       'description': instance.description,
-      'genres': instance.genres,
       'publisher': instance.publisher,
-      'author': instance.writer,
-      'language': instance.language,
+      'author': instance.author,
       'publishedYear': DateHelper.dateTimeToJson(instance.publishedDate),
+      'language': instance.language,
+      'genres': instance.genres,
     };

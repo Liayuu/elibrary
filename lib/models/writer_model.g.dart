@@ -7,12 +7,12 @@ part of 'writer_model.dart';
 // **************************************************************************
 
 WriterModel _$WriterModelFromJson(Map<String, dynamic> json) => WriterModel(
-      id: json['id'] as String?,
-      writerName: json['writerName'] as String?,
+      id: json['id'] as int?,
+      writerName: json['name'] as String?,
     );
 
 Map<String, dynamic> _$WriterModelToJson(WriterModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'writerName': instance.writerName,
+      'name': instance.writerName,
     };

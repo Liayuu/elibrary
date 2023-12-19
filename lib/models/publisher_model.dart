@@ -4,7 +4,8 @@ part 'publisher_model.g.dart';
 
 @JsonSerializable()
 class PublisherModel {
-  String? id;
+  int? id;
+  @JsonKey(name: "name")
   String? publisherName;
   PublisherModel({
     this.id,
@@ -12,7 +13,7 @@ class PublisherModel {
   });
 
   PublisherModel copyWith({
-    String? id,
+    int? id,
     String? publisherName,
   }) {
     return PublisherModel(
@@ -23,8 +24,7 @@ class PublisherModel {
 
   Map<String, dynamic> toJson() => _$PublisherModelToJson(this);
 
-  factory PublisherModel.fromJson(Map<String, dynamic> json) =>
-      _$PublisherModelFromJson(json);
+  factory PublisherModel.fromJson(Map<String, dynamic> json) => _$PublisherModelFromJson(json);
 
   @override
   String toString() => 'PublisherModel(id: $id, publisherName: $publisherName)';
@@ -33,9 +33,7 @@ class PublisherModel {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is PublisherModel &&
-        other.id == id &&
-        other.publisherName == publisherName;
+    return other is PublisherModel && other.id == id && other.publisherName == publisherName;
   }
 
   @override

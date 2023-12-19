@@ -3,22 +3,31 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'package:elibrary/models/publisher_model.dart';
 import 'package:elibrary/models/writer_model.dart';
+import 'package:elibrary/services/parser/date_and_time_parser.dart';
 
 part 'book_model.g.dart';
 
 @JsonSerializable()
 class BookModel {
-  String? id;
-  String? book;
+  int? id;
+  String? name;
+  String? isbn;
   String? description;
   List<String>? genres;
   PublisherModel? publisher;
+  @JsonKey(name: "author")
   WriterModel? writer;
   String? language;
+  @JsonKey(
+    name: "publishedYear",
+    fromJson: DateHelper.dateTimeFromJson,
+    toJson: DateHelper.dateTimeToJson,
+  )
   DateTime? publishedDate;
   BookModel({
     this.id,
-    this.book,
+    this.name,
+    this.isbn,
     this.description,
     this.genres,
     this.publisher,
@@ -28,8 +37,9 @@ class BookModel {
   });
 
   BookModel copyWith({
-    String? id,
-    String? book,
+    int? id,
+    String? name,
+    String? isbn,
     String? description,
     List<String>? genres,
     PublisherModel? publisher,
@@ -39,7 +49,8 @@ class BookModel {
   }) {
     return BookModel(
       id: id ?? this.id,
-      book: book ?? this.book,
+      name: name ?? this.name,
+      isbn: isbn ?? this.isbn,
       description: description ?? this.description,
       genres: genres ?? this.genres,
       publisher: publisher ?? this.publisher,
@@ -51,12 +62,11 @@ class BookModel {
 
   Map<String, dynamic> toJson() => _$BookModelToJson(this);
 
-  factory BookModel.fromJson(Map<String, dynamic> json) =>
-      _$BookModelFromJson(json);
+  factory BookModel.fromJson(Map<String, dynamic> json) => _$BookModelFromJson(json);
 
   @override
   String toString() {
-    return 'BookModel(id: $id, book: $book, description: $description, genres: $genres, publisher: $publisher, writer: $writer, language: $language, publishedDate: $publishedDate)';
+    return 'BookModel(id: $id, name: $name, isbn: $isbn, description: $description, genres: $genres, publisher: $publisher, writer: $writer, language: $language, publishedDate: $publishedDate)';
   }
 
   @override
@@ -65,7 +75,8 @@ class BookModel {
 
     return other is BookModel &&
         other.id == id &&
-        other.book == book &&
+        other.name == name &&
+        other.isbn == isbn &&
         other.description == description &&
         listEquals(other.genres, genres) &&
         other.publisher == publisher &&
@@ -77,7 +88,8 @@ class BookModel {
   @override
   int get hashCode {
     return id.hashCode ^
-        book.hashCode ^
+        name.hashCode ^
+        isbn.hashCode ^
         description.hashCode ^
         genres.hashCode ^
         publisher.hashCode ^
