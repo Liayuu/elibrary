@@ -11,8 +11,9 @@ BookModel _$BookModelFromJson(Map<String, dynamic> json) => BookModel(
       name: json['name'] as String?,
       isbn: json['isbn'] as String?,
       description: json['description'] as String?,
-      genres:
-          (json['genres'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      genres: (json['genres'] as List<dynamic>?)
+          ?.map((e) => GenreModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       publisher: json['publisher'] == null
           ? null
           : PublisherModel.fromJson(json['publisher'] as Map<String, dynamic>),

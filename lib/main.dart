@@ -1,6 +1,4 @@
-import 'package:elibrary/view/form/input_buku.dart';
-import 'package:elibrary/view/pages/home/components/book_card.dart';
-import 'package:elibrary/view/pages/home/main_menu.dart';
+import 'package:elibrary/services/initial_bindings.dart';
 import 'package:elibrary/view/pages/splashscreen/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +19,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const InputBuku(),
+      initialBinding: InitialBindings(),
+      home: const SplashScreen(),
     );
   }
 }

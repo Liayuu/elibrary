@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -23,6 +24,9 @@ class BookForm {
   List<String>? genres;
   @JsonKey(includeToJson: false, includeFromJson: false)
   XFile? image;
+  @JsonKey(includeToJson: false, includeFromJson: false)
+  String? imageLink;
+  MultipartFile? file;
   BookForm({
     this.id,
     this.name,
@@ -34,6 +38,8 @@ class BookForm {
     this.language,
     this.genres,
     this.image,
+    this.imageLink,
+    this.file,
   });
 
   BookForm copyWith({
@@ -47,6 +53,8 @@ class BookForm {
     String? language,
     List<String>? genres,
     XFile? image,
+    String? imageLink,
+    MultipartFile? file,
   }) {
     return BookForm(
       id: id ?? this.id,
@@ -59,6 +67,8 @@ class BookForm {
       language: language ?? this.language,
       genres: genres ?? this.genres,
       image: image ?? this.image,
+      imageLink: imageLink ?? this.imageLink,
+      file: file ?? this.file,
     );
   }
 
@@ -68,7 +78,7 @@ class BookForm {
 
   @override
   String toString() {
-    return 'BookForm(id: $id, name: $name, isbn: $isbn, description: $description, publisher: $publisher, author: $author, publishedDate: $publishedDate, language: $language, genres: $genres, image: $image)';
+    return 'BookForm(id: $id, name: $name, isbn: $isbn, description: $description, publisher: $publisher, author: $author, publishedDate: $publishedDate, language: $language, genres: $genres, image: $image, imageLink: $imageLink, file: $file)';
   }
 
   @override
@@ -85,7 +95,9 @@ class BookForm {
         other.publishedDate == publishedDate &&
         other.language == language &&
         listEquals(other.genres, genres) &&
-        other.image == image;
+        other.image == image &&
+        other.imageLink == imageLink &&
+        other.file == file;
   }
 
   @override
@@ -99,6 +111,8 @@ class BookForm {
         publishedDate.hashCode ^
         language.hashCode ^
         genres.hashCode ^
-        image.hashCode;
+        image.hashCode ^
+        imageLink.hashCode ^
+        file.hashCode;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:elibrary/models/book_model.dart';
 import 'package:elibrary/services/parser/links.dart';
 import 'package:get/get.dart';
@@ -26,6 +28,7 @@ class BookService extends GetConnect {
 
   Future<List<BookModel>> getAllBook() async {
     return await get(getHttpUriEndpoint("$host$port", servicePath).toString()).then((value) {
+      log(value.body.toString());
       if (responseChecker(value)) {
         return List<BookModel>.from(value.body.map((e) => BookModel.fromJson(e)));
       } else {
@@ -34,8 +37,9 @@ class BookService extends GetConnect {
     }).catchError((e) => throw e.toString());
   }
 
-  Future<BookModel> createBook(FormData data) async {
-    return await post(getHttpUriEndpoint("$host$port", servicePath).toString(), data).then((value) {
+  Future<BookModel> addingImage(FormData data, int id) async {
+    return await put(getHttpUriEndpoint("$host$port", "$servicePath/image/$id").toString(), data)
+        .then((value) {
       if (responseChecker(value)) {
         return BookModel.fromJson(value.body);
       } else {
@@ -44,8 +48,21 @@ class BookService extends GetConnect {
     }).catchError((e) => throw e.toString());
   }
 
-  Future<BookModel> updateBook(FormData data, int id) async {
-    return await put(getHttpUriEndpoint("$host$port", "$servicePath/$id").toString(), data)
+  Future<BookModel> createBook(dynamic form) async {
+    return await post(
+      getHttpUriEndpoint("$host$port", servicePath).toString(),
+      form,
+    ).then((value) {
+      if (responseChecker(value)) {
+        return BookModel.fromJson(value.body);
+      } else {
+        throw "Error create book ${value.statusCode} ${value.body}";
+      }
+    }).catchError((e) => throw e.toString());
+  }
+
+  Future<BookModel> updateBook(dynamic form, int id) async {
+    return await put(getHttpUriEndpoint("$host$port", "$servicePath/$id").toString(), form)
         .then((value) {
       if (responseChecker(value)) {
         return BookModel.fromJson(value.body);

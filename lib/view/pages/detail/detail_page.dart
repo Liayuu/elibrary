@@ -1,12 +1,21 @@
+import 'package:elibrary/controller/book_controller.dart';
+import 'package:elibrary/services/parser/date_and_time_parser.dart';
+import 'package:elibrary/view/form/input_buku.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:get/get.dart';
 
 class DetailPage extends StatelessWidget {
-  const DetailPage({super.key});
+  final int id;
+  const DetailPage({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bookCon = Get.find<BookController>();
+
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: ExpandableFab.location,
@@ -31,13 +40,22 @@ class DetailPage extends StatelessWidget {
                 shape: const CircleBorder(),
                 heroTag: null,
                 child: const Icon(Icons.edit),
-                onPressed: () {},
+                onPressed: () async {
+                  bookCon.modelToForm(id);
+                  await Get.to(() => const InputBuku())?.then((value) {
+                    bookCon.clearForm();
+                  });
+                },
               ),
               FloatingActionButton.small(
                 shape: const CircleBorder(),
                 heroTag: null,
                 child: const Icon(Icons.delete),
-                onPressed: () {},
+                onPressed: () async {
+                  bookCon.deleteBook(id).then((value) {
+                    Get.back();
+                  });
+                },
               ),
             ]),
         appBar: AppBar(
@@ -45,114 +63,135 @@ class DetailPage extends StatelessWidget {
           title: const Center(
             child: Text(
               "Detail Buku",
-              style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white),
             ),
           ),
         ),
-        body: SizedBox(
-          height: Get.height,
-          width: Get.width,
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: Get.height / 3,
-                  width: Get.width,
-                  child: Image.network(
-                    "https://sc04.alicdn.com/kf/He58198876a3e49748289f52dace0ee5cO.jpg",
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Buku Haluin Chara Genshin",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Deskripsi",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis facilisis varius sapien a malesuada. Aliquam efficitur sem ac purus commodo aliquam. Etiam semper neque tellus, quis pharetra sem ullamcorper quis. Curabitur rhoncus augue felis, in mollis leo malesuada at. Vestibulum tincidunt accumsan nunc non porttitor. Donec efficitur rutrum erat et.",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    "Detail",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
+        body: GetBuilder<BookController>(
+            init: Get.find<BookController>(),
+            builder: (bc) {
+              return SizedBox(
+                height: Get.height,
+                width: Get.width,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _detailBook("Genre", "Halu, 2D"),
-                          _detailBook("Penerbit", "Mihomo.inc")
-                        ],
+                      SizedBox(
+                        height: Get.height / 3,
+                        width: Get.width,
+                        child: Image.network(
+                          bc.getImageUrl(id),
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _detailBook("Pengarang", "Liem Chou Ching"),
-                          _detailBook("Tanggal Terbit", "12 Feb 2019")
-                        ],
+                      const SizedBox(
+                        height: 16,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          _detailBook("Bahasa", "Chinese"),
-                          _detailBook("ISBN", "0889W88492748")
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          bc.bookList.singleWhere((e) => e.id == id).name!,
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Deskripsi",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          bc.bookList.singleWhere((e) => e.id == id).description!,
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text(
+                          "Detail",
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _detailBook(
+                                    "Genre",
+                                    bc.bookList
+                                        .singleWhere((e) => e.id == id)
+                                        .genres!
+                                        .map((e) => e.name)
+                                        .toList()
+                                        .join(", ")),
+                                _detailBook(
+                                    "Penerbit",
+                                    bc.bookList
+                                        .singleWhere((e) => e.id == id)
+                                        .publisher!
+                                        .publisherName!)
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _detailBook("Pengarang",
+                                    bc.bookList.singleWhere((e) => e.id == id).writer!.writerName!),
+                                _detailBook(
+                                    "Tanggal Terbit",
+                                    dateToString(
+                                        date: bc.bookList
+                                            .singleWhere((e) => e.id == id)
+                                            .publishedDate!))
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _detailBook(
+                                    "Bahasa", bc.bookList.singleWhere((e) => e.id == id).language!),
+                                _detailBook(
+                                    "ISBN", bc.bookList.singleWhere((e) => e.id == id).isbn!)
+                              ],
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                )
-              ],
-            ),
-          ),
-        ),
+                ),
+              );
+            }),
       ),
     );
   }

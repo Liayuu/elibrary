@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class BookController extends GetxController {
   BookModel book = BookModel();
   List<BookModel> bookList = [];
+  BookForm form = BookForm();
 
   final BookService _bookService = BookService();
 
@@ -24,33 +25,24 @@ class BookController extends GetxController {
   }
 
   Future<void> createBook(BookForm form) async {
-    var filePart = MultipartFile(form.image!.readAsBytes(),
-        filename: form.image!.name, contentType: _bookService.getContentType(form.image!.name));
-    var metaPart = MultipartFile(form.toJson(), filename: "meta", contentType: "application/json");
-
-    await _bookService.createBook(FormData({"file": filePart, "meta": metaPart})).then((value) {
-      bookList.insert(0, value);
+    await _bookService.createBook(form.toJson()).then((value) async {
+      var filePart = MultipartFile(await form.image!.readAsBytes(),
+          filename: form.image!.name, contentType: _bookService.getContentType(form.image!.name));
+      await _bookService.addingImage(FormData({"file": filePart}), value.id!).then((vv) {
+        bookList.insert(0, vv);
+      });
       update();
     });
   }
 
   Future<void> updateBook(BookForm form) async {
-    MultipartFile? filePart;
-    if (form.image != null) {
-      filePart = MultipartFile(form.image!.readAsBytes(),
-          filename: form.image!.name, contentType: _bookService.getContentType(form.image!.name));
-    }
-    var metaPart = MultipartFile(form.toJson(), filename: "meta", contentType: "application/json");
-
-    await _bookService
-        .updateBook(
-            FormData({
-              "meta": metaPart,
-              if (filePart != null) ...{"file": filePart}
-            }),
-            form.id!)
-        .then((value) {
-      bookList.insert(0, value);
+    await _bookService.updateBook(form.toJson(), form.id!).then((value) async {
+      bookList[bookList.indexWhere((e) => e.id == value.id)] = value;
+      if (form.image != null) {
+        MultipartFile filePart = MultipartFile(form.image!.readAsBytes(),
+            filename: form.image!.name, contentType: _bookService.getContentType(form.image!.name));
+        await _bookService.addingImage(FormData({"file": filePart}), value.id!);
+      }
       update();
     });
   }
@@ -64,5 +56,26 @@ class BookController extends GetxController {
 
   String getImageUrl(int id) {
     return _bookService.imageUrl(id);
+  }
+
+  void modelToForm(int id) {
+    var bookData = bookList.singleWhere((element) => element.id == id);
+    form = BookForm(
+        author: bookData.writer?.writerName,
+        description: bookData.description,
+        genres: bookData.genres?.map((e) => e.name!).toList(),
+        id: bookData.id,
+        isbn: bookData.isbn,
+        imageLink: bookData.id != null ? getImageUrl(bookData.id!) : null,
+        language: bookData.language,
+        name: bookData.name,
+        publishedDate: bookData.publishedDate,
+        publisher: bookData.publisher?.publisherName);
+    update();
+  }
+
+  void clearForm() {
+    form = BookForm();
+    update();
   }
 }

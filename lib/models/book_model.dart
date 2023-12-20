@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'package:elibrary/models/genre_model.dart';
 import 'package:elibrary/models/publisher_model.dart';
 import 'package:elibrary/models/writer_model.dart';
 import 'package:elibrary/services/parser/date_and_time_parser.dart';
@@ -13,7 +14,7 @@ class BookModel {
   String? name;
   String? isbn;
   String? description;
-  List<String>? genres;
+  List<GenreModel>? genres;
   PublisherModel? publisher;
   @JsonKey(name: "author")
   WriterModel? writer;
@@ -41,7 +42,7 @@ class BookModel {
     String? name,
     String? isbn,
     String? description,
-    List<String>? genres,
+    List<GenreModel>? genres,
     PublisherModel? publisher,
     WriterModel? writer,
     String? language,
