@@ -40,7 +40,7 @@ class BookService extends GetConnect {
   Future<BookModel> addingImage(FormData data, int id) async {
     return await put(getHttpUriEndpoint("$host$port", "$servicePath/image/$id").toString(), data)
         .then((value) {
-      log(value.body.toString());
+      log(data.fields.toString());
       if (responseChecker(value)) {
         return BookModel.fromJson(value.body);
       } else {

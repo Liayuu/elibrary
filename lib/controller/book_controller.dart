@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:elibrary/models/book_form.dart';
 import 'package:elibrary/models/book_model.dart';
 import 'package:elibrary/services/book_service.dart';
@@ -28,6 +30,7 @@ class BookController extends GetxController {
     await _bookService.createBook(form.toJson()).then((value) async {
       var filePart = MultipartFile(await form.image!.readAsBytes(),
           filename: form.image!.name, contentType: _bookService.getContentType(form.image!.name));
+      log(filePart.filename);
       await _bookService.addingImage(FormData({"file": filePart}), value.id!).then((vv) {
         bookList.insert(0, vv);
       });
@@ -39,7 +42,7 @@ class BookController extends GetxController {
     await _bookService.updateBook(form.toJson(), form.id!).then((value) async {
       bookList[bookList.indexWhere((e) => e.id == value.id)] = value;
       if (form.image != null) {
-        MultipartFile filePart = MultipartFile(form.image!.readAsBytes(),
+        MultipartFile filePart = MultipartFile(await form.image!.readAsBytes(),
             filename: form.image!.name, contentType: _bookService.getContentType(form.image!.name));
         await _bookService.addingImage(FormData({"file": filePart}), value.id!);
       }
