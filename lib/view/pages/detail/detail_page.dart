@@ -79,14 +79,14 @@ class DetailPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: Get.height / 3,
-                        width: Get.width,
-                        child: Image.network(
-                          bc.getImageUrl(id),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+                      // SizedBox(
+                      //   height: Get.height / 3,
+                      //   width: Get.width,
+                      //   child: Image.network(
+                      //     bc.getImageUrl(id),
+                      //     fit: BoxFit.contain,
+                      //   ),
+                      // ),
                       const SizedBox(
                         height: 16,
                       ),

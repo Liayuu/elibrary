@@ -20,15 +20,21 @@ class BookCard extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Flexible(
+            const Flexible(
                 fit: FlexFit.tight,
                 flex: 5,
                 child: AspectRatio(
                   aspectRatio: 1,
-                  child: Image.network(
-                    image,
-                    fit: BoxFit.cover,
+                  child: Center(
+                    child: Icon(
+                      Icons.book,
+                      size: 32,
+                    ),
                   ),
+                  // child: Image.network(
+                  //   image,
+                  //   fit: BoxFit.cover,
+                  // ),
                 )),
             const SizedBox(
               height: 8,
