@@ -5,7 +5,7 @@ import 'package:elibrary/services/parser/links.dart';
 import 'package:get/get.dart';
 
 class BookService extends GetConnect {
-  static const String host = "192.168.1.17";
+  static const String host = "192.168.1.18";
   static const String port = ":8080";
   static const String mainPath = "/e-library/api";
   static const String servicePath = "$mainPath/book";
@@ -40,10 +40,11 @@ class BookService extends GetConnect {
   Future<BookModel> addingImage(FormData data, int id) async {
     return await put(getHttpUriEndpoint("$host$port", "$servicePath/image/$id").toString(), data)
         .then((value) {
+      log(value.body.toString());
       if (responseChecker(value)) {
         return BookModel.fromJson(value.body);
       } else {
-        throw "Error create book ${value.statusCode} ${value.body}";
+        throw "Error input image ${value.statusCode} ${value.body}";
       }
     }).catchError((e) => throw e.toString());
   }
