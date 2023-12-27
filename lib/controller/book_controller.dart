@@ -28,24 +28,24 @@ class BookController extends GetxController {
 
   Future<void> createBook(BookForm form) async {
     await _bookService.createBook(form.toJson()).then((value) async {
-      var filePart = MultipartFile(await form.image!.readAsBytes(),
-          filename: form.image!.name, contentType: _bookService.getContentType(form.image!.name));
-      log(filePart.filename);
-      await _bookService.addingImage(FormData({"file": filePart}), value.id!).then((vv) {
-        bookList.insert(0, vv);
-      });
+      // var filePart = MultipartFile(await form.image!.readAsBytes(),
+      //     filename: form.image!.name, contentType: _bookService.getContentType(form.image!.name));
+      // log(filePart.filename);
+      // await _bookService.addingImage(FormData({"file": filePart}), value.id!).then((vv) {
+      //   bookList.insert(0, vv);
+      // });
       update();
     });
   }
 
   Future<void> updateBook(BookForm form) async {
     await _bookService.updateBook(form.toJson(), form.id!).then((value) async {
-      bookList[bookList.indexWhere((e) => e.id == value.id)] = value;
-      if (form.image != null) {
-        MultipartFile filePart = MultipartFile(await form.image!.readAsBytes(),
-            filename: form.image!.name, contentType: _bookService.getContentType(form.image!.name));
-        await _bookService.addingImage(FormData({"file": filePart}), value.id!);
-      }
+      // bookList[bookList.indexWhere((e) => e.id == value.id)] = value;
+      // if (form.image != null) {
+      //   MultipartFile filePart = MultipartFile(await form.image!.readAsBytes(),
+      //       filename: form.image!.name, contentType: _bookService.getContentType(form.image!.name));
+      //   await _bookService.addingImage(FormData({"file": filePart}), value.id!);
+      // }
       update();
     });
   }

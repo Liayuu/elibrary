@@ -55,84 +55,84 @@ class _InputBukuState extends State<InputBuku> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        SizedBox(
-                          height: Get.height * 0.2,
-                          child: Center(
-                            child: GestureDetector(
-                              onTap: () {
-                                Get.bottomSheet(ImagePickerSheet(
-                                  stats: (response) async {
-                                    _onPickImage(response).then((value) {
-                                      setState(() {
-                                        _bookCon.form.image = value;
-                                      });
-                                    });
-                                  },
-                                ));
-                              },
-                              child: AspectRatio(
-                                aspectRatio: 1,
-                                child: FormField(
-                                  validator: (value) {
-                                    return null;
-                                  },
-                                  builder: (field) => Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(
-                                        color: Get.theme.primaryColor,
-                                        width: 2,
-                                      ),
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                                      child: _bookCon.form.imageLink == null &&
-                                              _bookCon.form.image == null
-                                          ? Center(
-                                              child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Icon(
-                                                    Icons.add,
-                                                    size: 32,
-                                                    color: Get.theme.colorScheme.primary,
-                                                  ),
-                                                  const Text(
-                                                    "Tambah Gambar",
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 16.0,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                                          : _bookCon.form.image == null
-                                              ? Image.network(
-                                                  _bookCon.form.imageLink!,
-                                                  fit: BoxFit.cover,
-                                                  errorBuilder: (context, error, stackTrace) =>
-                                                      const Center(
-                                                    child: Icon(
-                                                      Icons.image_not_supported_sharp,
-                                                      size: 24,
-                                                    ),
-                                                  ),
-                                                )
-                                              : Image.file(
-                                                  File(_bookCon.form.image!.path),
-                                                  fit: BoxFit.cover,
-                                                ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   height: Get.height * 0.2,
+                        //   child: Center(
+                        //     child: GestureDetector(
+                        //       onTap: () {
+                        //         Get.bottomSheet(ImagePickerSheet(
+                        //           stats: (response) async {
+                        //             _onPickImage(response).then((value) {
+                        //               setState(() {
+                        //                 _bookCon.form.image = value;
+                        //               });
+                        //             });
+                        //           },
+                        //         ));
+                        //       },
+                        //       child: AspectRatio(
+                        //         aspectRatio: 1,
+                        //         child: FormField(
+                        //           validator: (value) {
+                        //             return null;
+                        //           },
+                        //           builder: (field) => Container(
+                        //             decoration: BoxDecoration(
+                        //               borderRadius: BorderRadius.circular(20),
+                        //               border: Border.all(
+                        //                 color: Get.theme.primaryColor,
+                        //                 width: 2,
+                        //               ),
+                        //             ),
+                        //             child: ClipRRect(
+                        //               borderRadius: const BorderRadius.all(Radius.circular(20)),
+                        //               child: _bookCon.form.imageLink == null &&
+                        //                       _bookCon.form.image == null
+                        //                   ? Center(
+                        //                       child: Column(
+                        //                         crossAxisAlignment: CrossAxisAlignment.center,
+                        //                         mainAxisAlignment: MainAxisAlignment.center,
+                        //                         mainAxisSize: MainAxisSize.min,
+                        //                         children: [
+                        //                           Icon(
+                        //                             Icons.add,
+                        //                             size: 32,
+                        //                             color: Get.theme.colorScheme.primary,
+                        //                           ),
+                        //                           const Text(
+                        //                             "Tambah Gambar",
+                        //                             textAlign: TextAlign.center,
+                        //                             style: TextStyle(
+                        //                               fontSize: 16.0,
+                        //                               fontWeight: FontWeight.bold,
+                        //                             ),
+                        //                           )
+                        //                         ],
+                        //                       ),
+                        //                     )
+                        //                   : _bookCon.form.image == null
+                        //                       ? Image.network(
+                        //                           _bookCon.form.imageLink!,
+                        //                           fit: BoxFit.cover,
+                        //                           errorBuilder: (context, error, stackTrace) =>
+                        //                               const Center(
+                        //                             child: Icon(
+                        //                               Icons.image_not_supported_sharp,
+                        //                               size: 24,
+                        //                             ),
+                        //                           ),
+                        //                         )
+                        //                       : Image.file(
+                        //                           File(_bookCon.form.image!.path),
+                        //                           fit: BoxFit.cover,
+                        //                         ),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         ProfileTextfield(
                           hintText: "Nama Buku",
                           initialValue: _bookCon.form.name,
